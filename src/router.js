@@ -7,6 +7,9 @@ import RegisterView from '@/views/Register.vue';
 import InfoView from '@/views/Info.vue';
 import ExplainView from '@/views/Explain.vue';  
 import LoginView from '@/views/Login.vue';
+import Profile from '@/views/Profile.vue';
+import TestUserLevelView from '@/views/TestUserLevel.vue';
+import Levels from './views/Levels.vue';
 
 const routes = [
   {
@@ -30,13 +33,26 @@ const routes = [
     component: ExplainView
   },
   {
-      path: '/login',     
-      name: 'login',
-      component: LoginView
-    }
-
+    path: '/login',     
+    name: 'login',
+    component: LoginView
+  },
+  {
+    path: '/profile',
+    name: 'profile',
+    component: Profile
+  },
+  {
+    path: '/test-user-level',
+    name: 'test-user-level',
+    component: TestUserLevelView
+  },
+  {
+    path: '/levels',
+    name: 'levels',
+    component: Levels
+  }
 ];
-
 
 const router = createRouter({
   history: createWebHistory(),

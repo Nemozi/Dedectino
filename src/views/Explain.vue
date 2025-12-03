@@ -3,11 +3,6 @@ import { useRouter } from 'vue-router';
 
 const router = useRouter();
 
-const startGame = () => {
-    // Hier würdest du zum eigentlichen Spiel/Canvas weiterleiten
-    // z.B. router.push('/game');
-    console.log("Spiel gestartet");
-};
 </script>
 
 <template>
@@ -37,9 +32,9 @@ const startGame = () => {
                 <p>Die Daten werden anonym für ein Forschungsprojekt gesammelt.</p>
             </div>
 
-            <button @click="startGame" class="primary-btn">
-                Verstanden, Los geht's!
-            </button>
+            <router-link to="/levels" class="primary-btn">
+                Los geht's
+            </router-link>
         </div>
     </div>
 </template>
@@ -120,30 +115,7 @@ p {
     font-size: 1.5rem;
 }
 
-.primary-btn {
-    width: 100%;
-    padding: 1.25rem;
-    background: #000;
-    color: #fff;
-    border: none;
-    font-size: 1.1rem;
-    text-transform: uppercase;
-    font-weight: 700;
-    cursor: pointer;
-    transition: transform 0.1s, box-shadow 0.1s;
-    letter-spacing: 0.05em;
-}
 
-.primary-btn:hover {
-    background: #222;
-    transform: translate(-2px, -2px);
-    box-shadow: 4px 4px 0 rgba(0,0,0,0.2);
-}
-
-.primary-btn:active {
-    transform: translate(0, 0);
-    box-shadow: none;
-}
 
 @media (max-width: 600px) {
     .explain-card { padding: 1.5rem; }

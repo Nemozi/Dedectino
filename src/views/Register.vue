@@ -1,10 +1,19 @@
     
 <script setup>
-import { reactive, ref } from 'vue';
-import { useRouter } from 'vue-router'; // 1. Router importieren
+import { reactive, ref, onMounted } from 'vue';
+import { useRouter } from 'vue-router'; 
 import { supabase } from '@/lib/supabaseClient.js'; 
 
-const router = useRouter(); // 2. Router initialisieren
+const router = useRouter();
+
+onMounted(async () => {
+    const { data: { session } } = await supabase.auth.getSession();
+    if (session) {
+        // Wenn eingeloggt -> direkt zur Map
+        router.push('/levels');
+    }
+});
+
 const loading = ref(false);
 const errorMessage = ref('');
 
@@ -22,16 +31,15 @@ const registerUser = async () => {
     errorMessage.value = '';
 
     try {
-        // Auth Sign Up (jetzt ohne Email-Confirm Zwang dank Schritt 1)
         const { data: authData, error: authError } = await supabase.auth.signUp({
             email: formData.email,
             password: formData.password,
         });
 
         if (authError) throw authError;
-
+        
         if (authData.user) {
-            // Datenbank Eintrag erstellen
+            
             const { error: dbError } = await supabase
                 .from('spielerprofile')
                 .insert({
@@ -43,9 +51,7 @@ const registerUser = async () => {
                 });
 
             if (dbError) throw dbError;
-
-            // 3. Weiterleitung statt Alert!
-            // Da 'Confirm email' aus ist, sind wir jetzt eingeloggt.
+            // Registrierung erfolgreich, weiter zur Erklärung
             router.push('/explain'); 
         }
 
@@ -67,12 +73,12 @@ const registerUser = async () => {
             
             <form @submit.prevent="registerUser" class="form-container">
                 
-                <!-- FEHLERMELDUNG ANZEIGE -->
+                
                 <div v-if="errorMessage" class="error-box">
                     {{ errorMessage }}
                 </div>
 
-                <!-- LOGIN DATEN -->
+                
                 <div class="section-divider">Account Daten</div>
 
                 <div class="form-group">
@@ -244,14 +250,13 @@ label {
 
 .form-group { margin-bottom: 1.5rem; }
 
-/* Inputs */
+
 .brutal-input {
     width: 100%;
     box-sizing: border-box;
     padding: 0.8rem 1rem;
     border: 0.0625rem solid #000;
     border-radius: 0;
-    font-family: inherit;
     font-size: 1rem;
     background: #f9f9f9;
     color: #000;
@@ -264,7 +269,6 @@ label {
     border: 0.125rem solid #000;
 }
 
-/* Radio Buttons (Viereckig) */
 .radio-group {
     display: flex;
     flex-direction: column;
@@ -297,7 +301,7 @@ label {
     width: 1.5rem;
     background-color: #fff;
     border: 0.125rem solid var(--text-main, #000);
-    border-radius: 0; /* Viereck */
+    border-radius: 0;
     transition: background-color 0.1s;
 }
 
@@ -381,37 +385,6 @@ input[type=range]::-moz-range-thumb {
     color: var(--card-bg, #edc531);
     padding: 0.1rem 0.4rem;
     border-radius: 2px;
-}
-
-/* Button */
-.primary-btn {
-    width: 100%;
-    padding: 1.125rem;
-    background: var(--accent, #000);
-    color: #fff;
-    border: none;
-    border-radius: 0;
-    font-size: 1rem;
-    text-transform: uppercase;
-    letter-spacing: .05em;
-    font-weight: 600;
-    cursor: pointer;
-    transition: transform .1s, background-color .2s;
-    margin-top: 1rem;
-    border: 1px solid transparent;
-}
-
-.primary-btn:hover:not(:disabled) {
-    background: #222;
-    transform: translate(0.125rem, 0.125rem);
-    box-shadow: 0.25rem 0.25rem 0 rgba(0,0,0,.2);
-    border-color: #000;
-}
-
-.primary-btn:disabled {
-    background: #555;
-    cursor: not-allowed;
-    opacity: 0.8;
 }
 
 @media (max-width: 600px) {
