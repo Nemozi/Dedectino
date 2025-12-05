@@ -10,7 +10,7 @@ const completedLevels = ref([]); // Array von Level-IDs, z.B. [1, 2]
 // Konfiguration der Levels
 const levels = [
     { id: 1, title: "Einstufungstest", route: "/test-user-level" }, 
-    { id: 2, title: "Deepfakes Basics", route: "/level/2" },
+    { id: 2, title: "Basics", route: "/level1" },
     { id: 3, title: "Hände & Finger", route: "/level/3" },
     { id: 4, title: "Hintergründe", route: "/level/4" },
 ];

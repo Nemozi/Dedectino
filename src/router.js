@@ -10,6 +10,7 @@ import LoginView from '@/views/Login.vue';
 import Profile from '@/views/Profile.vue';
 import TestUserLevelView from '@/views/TestUserLevel.vue';
 import Levels from './views/Levels.vue';
+import Level1 from './views/Level1.vue';
 
 const routes = [
   {
@@ -51,6 +52,11 @@ const routes = [
     path: '/levels',
     name: 'levels',
     component: Levels
+  },
+  {
+    path: '/level1',
+    name: 'level1',
+    component: Level1
   }
 ];
 
